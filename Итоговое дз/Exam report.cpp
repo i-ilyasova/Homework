@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <limits>
 
-// Хранение информации о студенте.
+// Структура для хранения информации о студенте
 struct Student {
     std::string surname;
     std::string name;
@@ -21,16 +21,6 @@ struct Student {
         else if (rating >= 75) mark = 4;
         else if (rating >= 60) mark = 3;
         else mark = 2;
-    }
-
-    // Вывод данных о студенте в табличном виде
-    void print() const {
-        std::cout << std::setw(12) << surname
-                  << std::setw(12) << name
-                  << std::setw(15) << patronymic
-                  << std::setw(8) << rating
-                  << std::setw(8) << mark
-                  << std::setw(10) << (allowed ? "Да" : "Нет") << '\n';
     }
 };
 
@@ -50,8 +40,6 @@ public:
         students.clear();
         Student s;
         while (in >> s.surname >> s.name >> s.patronymic >> s.rating >> s.mark >> s.allowed) {
-            // Если хотите пересчитывать оценку по рейтингу, раскомментируйте следующую строку:
-            // s.computeMark5();
             students.push_back(s);
         }
         in.close();
@@ -70,16 +58,45 @@ public:
         }
     }
 
-    // Вывод всех студентов
+    // Красивый табличный вывод всех студентов
     void view() const {
-        std::cout << std::setw(12) << "Фамилия"
-                  << std::setw(12) << "Имя"
-                  << std::setw(15) << "Отчество"
-                  << std::setw(8) << "Рейтинг"
-                  << std::setw(8) << "Оценка"
-                  << std::setw(10) << "Допущен" << '\n';
-        for (const auto& s : students)
-            s.print();
+        // Ширины столбцов
+        const int wSurname = 12;
+        const int wName = 12;
+        const int wPatronymic = 15;
+        const int wRating = 8;
+        const int wMark = 8;
+        const int wAllowed = 10;
+        const int totalWidth = wSurname + wName + wPatronymic + wRating + wMark + wAllowed + 7;
+
+        // Верхняя линия
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
+
+        // Заголовок
+        std::cout << "|"
+                  << std::setw(wSurname) << "Фамилия" << "|"
+                  << std::setw(wName) << "Имя" << "|"
+                  << std::setw(wPatronymic) << "Отчество" << "|"
+                  << std::setw(wRating) << "Рейт" << "|"
+                  << std::setw(wMark) << "Оценка" << "|"
+                  << std::setw(wAllowed) << "Допущен" << "|" << std::endl;
+
+        // Разделительная линия
+        std::cout << std::setfill('-') << std::setw(totalWidth) << "-" << std::setfill(' ') << std::endl;
+
+        // Данные студентов
+        for (const auto& s : students) {
+            std::cout << "|"
+                      << std::setw(wSurname) << s.surname << "|"
+                      << std::setw(wName) << s.name << "|"
+                      << std::setw(wPatronymic) << s.patronymic << "|"
+                      << std::setw(wRating) << s.rating << "|"
+                      << std::setw(wMark) << s.mark << "|"
+                      << std::setw(wAllowed) << (s.allowed ? "Да" : "Нет") << "|" << std::endl;
+        }
+
+        // Нижняя линия
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
     }
 
     // Добавление студента
@@ -113,7 +130,26 @@ public:
         bool found = false;
         for (const auto& s : students) {
             if (s.surname == key) {
-                s.print();
+                // Табличный вывод одного студента
+                const int wSurname = 12, wName = 12, wPatronymic = 15, wRating = 8, wMark = 8, wAllowed = 10;
+                const int totalWidth = wSurname + wName + wPatronymic + wRating + wMark + wAllowed + 7;
+                std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
+                std::cout << "|"
+                          << std::setw(wSurname) << "Фамилия" << "|"
+                          << std::setw(wName) << "Имя" << "|"
+                          << std::setw(wPatronymic) << "Отчество" << "|"
+                          << std::setw(wRating) << "Рейт" << "|"
+                          << std::setw(wMark) << "Оценка" << "|"
+                          << std::setw(wAllowed) << "Допущен" << "|" << std::endl;
+                std::cout << std::setfill('-') << std::setw(totalWidth) << "-" << std::setfill(' ') << std::endl;
+                std::cout << "|"
+                          << std::setw(wSurname) << s.surname << "|"
+                          << std::setw(wName) << s.name << "|"
+                          << std::setw(wPatronymic) << s.patronymic << "|"
+                          << std::setw(wRating) << s.rating << "|"
+                          << std::setw(wMark) << s.mark << "|"
+                          << std::setw(wAllowed) << (s.allowed ? "Да" : "Нет") << "|" << std::endl;
+                std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
                 found = true;
             }
         }
@@ -125,12 +161,31 @@ public:
     // Фильтрация по диапазону рейтинга
     void filterByRatingRange(int minR, int maxR) const {
         bool found = false;
+        // Табличный вывод заголовка
+        const int wSurname = 12, wName = 12, wPatronymic = 15, wRating = 8, wMark = 8, wAllowed = 10;
+        const int totalWidth = wSurname + wName + wPatronymic + wRating + wMark + wAllowed + 7;
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
+        std::cout << "|"
+                  << std::setw(wSurname) << "Фамилия" << "|"
+                  << std::setw(wName) << "Имя" << "|"
+                  << std::setw(wPatronymic) << "Отчество" << "|"
+                  << std::setw(wRating) << "Рейт" << "|"
+                  << std::setw(wMark) << "Оценка" << "|"
+                  << std::setw(wAllowed) << "Допущен" << "|" << std::endl;
+        std::cout << std::setfill('-') << std::setw(totalWidth) << "-" << std::setfill(' ') << std::endl;
         for (const auto& s : students) {
             if (s.rating >= minR && s.rating <= maxR) {
-                s.print();
+                std::cout << "|"
+                          << std::setw(wSurname) << s.surname << "|"
+                          << std::setw(wName) << s.name << "|"
+                          << std::setw(wPatronymic) << s.patronymic << "|"
+                          << std::setw(wRating) << s.rating << "|"
+                          << std::setw(wMark) << s.mark << "|"
+                          << std::setw(wAllowed) << (s.allowed ? "Да" : "Нет") << "|" << std::endl;
                 found = true;
             }
         }
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
         if (!found) {
             std::cout << "Нет студентов с рейтингом в диапазоне [" << minR << ", " << maxR << "].\n";
         }
@@ -172,13 +227,31 @@ public:
     // Список недопущенных студентов
     void listNotAllowed() const {
         bool found = false;
-        std::cout << "Недопущенные студенты:\n";
+        // Табличный вывод заголовка
+        const int wSurname = 12, wName = 12, wPatronymic = 15, wRating = 8, wMark = 8, wAllowed = 10;
+        const int totalWidth = wSurname + wName + wPatronymic + wRating + wMark + wAllowed + 7;
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
+        std::cout << "|"
+                  << std::setw(wSurname) << "Фамилия" << "|"
+                  << std::setw(wName) << "Имя" << "|"
+                  << std::setw(wPatronymic) << "Отчество" << "|"
+                  << std::setw(wRating) << "Рейт" << "|"
+                  << std::setw(wMark) << "Оценка" << "|"
+                  << std::setw(wAllowed) << "Допущен" << "|" << std::endl;
+        std::cout << std::setfill('-') << std::setw(totalWidth) << "-" << std::setfill(' ') << std::endl;
         for (const auto& s : students) {
             if (!s.allowed) {
-                s.print();
+                std::cout << "|"
+                          << std::setw(wSurname) << s.surname << "|"
+                          << std::setw(wName) << s.name << "|"
+                          << std::setw(wPatronymic) << s.patronymic << "|"
+                          << std::setw(wRating) << s.rating << "|"
+                          << std::setw(wMark) << s.mark << "|"
+                          << std::setw(wAllowed) << "Нет" << "|" << std::endl;
                 found = true;
             }
         }
+        std::cout << std::setfill('=') << std::setw(totalWidth) << "=" << std::setfill(' ') << std::endl;
         if (!found) {
             std::cout << "Все студенты допущены.\n";
         }
@@ -188,7 +261,7 @@ public:
     int size() const {
         return students.size();
     }
-};
+}; // <-- Закрывающая скобка класса StudentDB
 
 // Меню для управления бд
 void menu() {
