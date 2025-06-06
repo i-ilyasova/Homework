@@ -1,0 +1,19 @@
+Операционная система: Ubuntu 22.04 LTS
+
+Версия ядра: 6.5.0-28-generic
+Оболочка пользователя: /bin/bash
+Графическая оболочка: GNOME
+Система инициализации: systemd
+Параметры ядра: BOOT_IMAGE=/boot/vmlinuz-6.5.0-28-generic root=UUID=... ro quiet splash vt.handoff=7
+Второй запущенный процесс: kthreadd
+Запущенные службы:
+accounts-daemon.service   loaded active running Accounts Service
+cron.service              loaded active running Regular background program processing daemon
+dbus.service              loaded active running D-Bus System Message Bus
+gdm.service               loaded active running GNOME Display Manager
+networkd-dispatcher.service loaded active running Dispatcher daemon for systemd-networkd
+systemd-journald.service  loaded active running Journal Service
+systemd-logind.service    loaded active running User Login Management
+systemd-networkd.service  loaded active running Network Service
+systemd-resolved.service  loaded active running Network Name Resolution
+systemd-timesyncd.service loaded active running Network Time Synchronization
